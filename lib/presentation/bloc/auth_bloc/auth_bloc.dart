@@ -20,13 +20,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }) : super(AuthInitial()) {
     on<SignedIn>((event, emit) async {
       emit(AuthInProgress());
-      await signInUseCase.signInUser(event.email, event.password);
-      emit(AuthenticatedUser());
+      try {
+        await signInUseCase.signInUser(event.email, event.password);
+        emit(AuthenticatedUser());
+      } catch (e) {
+        emit(AuthFailure(message: e.toString()));
+      }
     });
     on<SignedUp>((event, emit) async {
       emit(AuthInProgress());
-      await signUpUseCase.signUpUser(event.email, event.password);
-      emit(AuthenticatedUser());
+      try {
+        await signUpUseCase.signUpUser(event.email, event.password);
+        emit(AuthenticatedUser());
+      } catch (e) {
+        emit(AuthFailure(message: e.toString()));
+      }
     });
     on<SignedOut>((event, emit) async {
       emit(AuthInProgress());
