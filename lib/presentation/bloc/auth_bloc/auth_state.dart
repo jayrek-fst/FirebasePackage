@@ -15,4 +15,11 @@ class AuthenticatedUser extends AuthState {}
 
 class UnAuthenticatedUser extends AuthState {}
 
-class AuthFailure extends AuthState {}
+class AuthFailure extends AuthState {
+  final String message;
+
+  const AuthFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
